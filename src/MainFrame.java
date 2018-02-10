@@ -7,6 +7,8 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+
 import clockMachine.Clock;
 
 public class MainFrame extends JFrame {
@@ -16,8 +18,20 @@ public class MainFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JButton btStop, btGeorgian, btSummer, btWinter;
 	private Clock clock = new Clock();
-
+	
 	public MainFrame() {
+		setFrameConfigurations();
+		
+		setButtonsPrefrences();
+		
+		arrangeComponents();
+
+		setButtonsActionListeners();
+	}
+	
+
+
+	private void setFrameConfigurations() {
 		setTitle("Clock");
 		setSize(new Dimension(510, 550));
 		setLocationRelativeTo(null);
@@ -25,19 +39,10 @@ public class MainFrame extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
 		setAlwaysOnTop(true);
-		
-		btStop = new JButton("Stop");
-		btStop.setPreferredSize(new Dimension(90, 30));
-		btGeorgian = new JButton("Georgian");
-		btGeorgian.setPreferredSize(new Dimension(90, 30));
-		btSummer = new JButton("Summer");
-		btSummer.setPreferredSize(new Dimension(90, 30));
-		btWinter = new JButton("Winter");
-		btWinter.setPreferredSize(new Dimension(90, 30));
-		
-		arrangeComponents();
+	}
 
-		
+
+	private void setButtonsActionListeners() {
 		btStop.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent stop) {
@@ -52,11 +57,32 @@ public class MainFrame extends JFrame {
 			}
 		});
 		
+		btSummer.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent Summer) {
+				clock.summer();
+			}
+		});
 		
-
-
+		btWinter.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent winter) {
+				clock.winter();
+			}
+		});
 	}
-	
+
+
+	private void setButtonsPrefrences() {
+		btStop = new JButton("Stop");
+		btStop.setPreferredSize(new Dimension(90, 30));
+		btGeorgian = new JButton("Georgian");
+		btGeorgian.setPreferredSize(new Dimension(90, 30));
+		btSummer = new JButton("Summer");
+		btSummer.setPreferredSize(new Dimension(90, 30));
+		btWinter = new JButton("Winter");
+		btWinter.setPreferredSize(new Dimension(90, 30));
+	}
 	
 	private void arrangeComponents() {
 		JPanel ButtonPnl = new JPanel();
@@ -69,9 +95,8 @@ public class MainFrame extends JFrame {
 	    ButtonPnl.add(btGeorgian);
 	    ButtonPnl.add(btSummer);
 	    ButtonPnl.add(btWinter);
-
-        
 	}
+
 }
 
 

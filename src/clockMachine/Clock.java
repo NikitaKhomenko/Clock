@@ -19,6 +19,7 @@ public class Clock extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private Timer timer;
 	int degree = 0;
+	private int hour = 0;
 	final static int x = 80;
 	final static int y = 50;
 	
@@ -33,26 +34,30 @@ public class Clock extends JPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
-		String time = getTime();
-		int hours = Integer.parseInt(time.substring(0, 2));
+		// get time
+		LocalDateTime time = LocalDateTime.now();
+		
+		int hours = time.getHour() + this.hour;
 		if(hours > 12)
 			hours = hours - 12;
-		int minutes = Integer.parseInt(time.substring(3, 5));
-		int seconds = Integer.parseInt(time.substring(6, 8));
+		int minutes = time.getMinute();
+		int seconds = time.getSecond();
 
-        setLayout(new BorderLayout());
+		// clock component
 		g.setColor(Color.WHITE);
 		g.fillOval(x, y, 340, 340);
         g.setColor(Color.BLACK);
 		g.drawOval(x, y, 340, 340);
 		
+		// Clock dial component
 		g.setColor(Color.BLUE);
-		g.fillArc(x+60, y+60, 220, 220, -hours*30+90, 1);
+		g.fillArc(x+60, y+60, 220, 220, -hours*30+90, 2);
 		g.setColor(Color.GREEN);
 		g.fillArc(x+20, y+20, 300, 300, -minutes*6+90, 1);
 		g.setColor(Color.RED);
 		g.fillArc(x, y, 340, 340, -seconds*6+90, 1);
 		
+		// numbers component
 		g.setColor(Color.BLACK);
 		Font FontNumbers = new Font("TimesRoman", Font.BOLD, 27);
 		g.setFont(FontNumbers);
@@ -60,12 +65,10 @@ public class Clock extends JPanel {
 		g.drawString("3", 400, 225);
 		g.drawString("6", 243, 382);
 		g.drawString("9", 92, 228);
-		g.drawString(time, 200, 440);
+		g.drawString(time.format(DateTimeFormatter.ofPattern("HH:mm:ss")), 200, 440);
 
 		
 		MovingTime();
-		
-//		System.out.println(hours + " " + minutes + " " + seconds);
 	}
 	
 	class MyTimerTask extends TimerTask{
@@ -81,16 +84,12 @@ public class Clock extends JPanel {
 		timer.cancel();
 	}
 	
-	public String getTime() {
-		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
-		LocalDateTime now = LocalDateTime.now();
-		return dtf.format(now);
-	}
-	
 	public void summer() {
+		this.hour = -1;
 	}
 	
 	public void winter() {
+		this.hour = 0;
 	}
-	
+
 }
