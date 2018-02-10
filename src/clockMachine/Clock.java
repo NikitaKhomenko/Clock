@@ -25,7 +25,7 @@ public class Clock extends JPanel {
 	public void MovingTime() {
 		timer = new Timer();
 		TimerTask timeSeconds = new MyTimerTask();
-		timer.schedule(timeSeconds, 1000, 999999999);
+		timer.schedule(timeSeconds, 1000, 99999999);
 		
 	}
 
@@ -47,9 +47,9 @@ public class Clock extends JPanel {
 		g.fillOval(x, y, 340, 340);
 		
 		g.setColor(Color.BLUE);
-		g.fillArc(x, y, 340, 340, -hours*30+90, 1);
+		g.fillArc(x+60, y+60, 220, 220, -hours*30+90, 1);
 		g.setColor(Color.GREEN);
-		g.fillArc(x, y, 340, 340, -minutes*6+90, 1);
+		g.fillArc(x+20, y+20, 300, 300, -minutes*6+90, 1);
 		g.setColor(Color.RED);
 		g.fillArc(x, y, 340, 340, -seconds*6+90, 1);
 		
