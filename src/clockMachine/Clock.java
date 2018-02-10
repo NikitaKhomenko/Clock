@@ -41,10 +41,10 @@ public class Clock extends JPanel {
 		int seconds = Integer.parseInt(time.substring(6, 8));
 
         setLayout(new BorderLayout());
-		g.setColor(Color.BLACK);
-		g.drawOval(x, y, 340, 340);
 		g.setColor(Color.WHITE);
 		g.fillOval(x, y, 340, 340);
+        g.setColor(Color.BLACK);
+		g.drawOval(x, y, 340, 340);
 		
 		g.setColor(Color.BLUE);
 		g.fillArc(x+60, y+60, 220, 220, -hours*30+90, 1);
@@ -92,7 +92,5 @@ public class Clock extends JPanel {
 	
 	public void winter() {
 	}
-
-
 	
 }
