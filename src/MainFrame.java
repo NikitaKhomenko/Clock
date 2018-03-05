@@ -62,7 +62,7 @@ public class MainFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent changeColor) {
 				int selected = cbOrigin.getSelectedIndex();
-				Clock.setOrigin(selected);
+				Clock.setHourTimeZone(selected);
 			}
 		});
 

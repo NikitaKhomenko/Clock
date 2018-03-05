@@ -5,7 +5,9 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.TimeZone;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -22,6 +24,16 @@ public class Clock extends JPanel {
 	private static int hour = 0;
 	final static int x = 80;
 	final static int y = 50;
+
+    public static Map<Integer, Integer> timeZoneHours = new HashMap<Integer, Integer>();
+	
+    public Clock() {
+	    timeZoneHours.put(1, -7);
+	    timeZoneHours.put(0, 0);
+	    timeZoneHours.put(2, -2);
+	    timeZoneHours.put(3, 7);
+	    timeZoneHours.put(4, 9);
+	}
 	
 	public void MovingTime() {
 		timer = new Timer();
@@ -69,11 +81,20 @@ public class Clock extends JPanel {
 		g.setColor(Color.BLACK);
 		Font FontNumbers = new Font("TimesRoman", Font.BOLD, 27);
 		g.setFont(FontNumbers);
-		g.drawString("12", 235, 76);
-		g.drawString("3", 400, 225);
-		g.drawString("6", 243, 382);
-		g.drawString("9", 92, 228);
+		drawClockNumbers(g);
 		
+		drawDigitalClock(g, hoursDigital, minutes, seconds);
+
+
+		MovingTime();
+	}
+
+	private void drawDigitalClock(Graphics g, int hoursDigital, int minutes, int seconds) {
+		String digitalClock = concatDigitalClockString(hoursDigital, minutes, seconds);
+		g.drawString(digitalClock, 200, 440);
+	}
+
+	public String concatDigitalClockString(int hoursDigital, int minutes, int seconds) {
 		String hoursDisplay = hoursDigital + "";
 		String minutesDisplay = minutes + "";
 		String secondsDisplay = seconds + ""; 
@@ -84,17 +105,22 @@ public class Clock extends JPanel {
 			minutesDisplay = "0" + minutes;
 		if (seconds < 10)
 			secondsDisplay = "0" + seconds;
+		String digitalClock = hoursDisplay + ":" + minutesDisplay + ":" + secondsDisplay;
+		
+		return digitalClock;
+	}
 
-		g.drawString(hoursDisplay + ":" + minutesDisplay + ":" + secondsDisplay, 200, 440);
-
-
-		MovingTime();
+	private void drawClockNumbers(Graphics g) {
+		g.drawString("12", 235, 76);
+		g.drawString("3", 400, 225);
+		g.drawString("6", 243, 382);
+		g.drawString("9", 92, 228);
 	}
 	
 	class MyTimerTask extends TimerTask{
 		@Override
 		public void run() {
-			repaint();
+			repaint();     //calling graphics g to repaint clock.
 		}
 	}
 	
@@ -102,17 +128,12 @@ public class Clock extends JPanel {
 		timer.cancel();
 	}
 	
-	public static void setOrigin(int selected) {
-		if (selected == 0)
-			hour = 0;
-		if (selected == 1)
-			hour = -7;
-		if (selected == 2)
-			hour = -2;
-		if (selected == 3)
-			hour = 7;
-		if (selected == 4)
-			hour = 9;				
+	public static void setHourTimeZone(int selectedHour) {
+       hour = timeZoneHours.get(selectedHour);				
+	}
+	
+	public static int getHour() {
+		return hour;
 	}
 
 }

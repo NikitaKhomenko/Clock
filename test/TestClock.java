@@ -14,21 +14,26 @@ public class TestClock {
 	}
 	
 	@Test
-	public void testTimeToDegrees() {
-		//Test for 24 hours
-		int degrees = 90;
-		float time = 3.00f;
-		Assert.assertEquals(clock.timeToDegrees(time), degrees);
-		float nextTime = 15.00f;
-		Assert.assertEquals(clock.timeToDegrees(nextTime), degrees);
+	public void testsetHourTimeZone() {
+		clock.setHourTimeZone(1);
+		Assert.assertEquals(clock.getHour(), -7);
 	}
 	
 	@Test
-	public void TestTimeToDegrees() {
-		float time = 7.50f;
-		int degrees = 225;
-		Assert.assertEquals(clock.timeToDegrees(time), degrees);
-				
+	public void testAddZeroConcatDigitalClockString() {
+		String digitalClock= clock.concatDigitalClockString(6, 5, 2);
+		String checkClockTest = "06:05:02";
+	
+		Assert.assertEquals(digitalClock, checkClockTest);
+	}
+			
+	@Test
+	public void testNoZeroConcatDigitalClockString() {
+		String digitalClock= clock.concatDigitalClockString(12, 33, 15);
+		String checkClockTest = "12:33:15";
+
+		Assert.assertEquals(digitalClock, checkClockTest);
+		
 	}
 	
 }
