@@ -1,11 +1,12 @@
 package clockMachine;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.time.ZoneId;
+import java.util.Locale;
+import java.util.TimeZone;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -18,8 +19,7 @@ public class Clock extends JPanel {
 	 */
 	private static final long serialVersionUID = 1L;
 	private Timer timer;
-	int degree = 0;
-	private int hour = 0;
+	private static int hour = 0;
 	final static int x = 80;
 	final static int y = 50;
 	
@@ -33,13 +33,21 @@ public class Clock extends JPanel {
 	
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		
 		// get time
 		LocalDateTime time = LocalDateTime.now();
+		int hours = time.getHour() + Clock.hour;
 		
-		int hours = time.getHour() + this.hour;
-		if(hours > 12)
+		int hoursDigital = hours;
+		if(hoursDigital > 23)
+			hoursDigital =- 24;
+		if(hoursDigital < 0)
+			hoursDigital =+ 24;
+		
+		if(hours > 11)
 			hours = hours - 12;
+		else if(hours < 0)
+			hours = hours + 12;
+		
 		int minutes = time.getMinute();
 		int seconds = time.getSecond();
 
@@ -51,9 +59,9 @@ public class Clock extends JPanel {
 		
 		// Clock dial component
 		g.setColor(Color.BLUE);
-		g.fillArc(x+60, y+60, 220, 220, -hours*30+90, 2);
+		g.fillArc(x+60, y+60, 220, 220, -hours*30+90, 3);
 		g.setColor(Color.GREEN);
-		g.fillArc(x+20, y+20, 300, 300, -minutes*6+90, 1);
+		g.fillArc(x+20, y+20, 300, 300, -minutes*6+90, 2);
 		g.setColor(Color.RED);
 		g.fillArc(x, y, 340, 340, -seconds*6+90, 1);
 		
@@ -65,17 +73,19 @@ public class Clock extends JPanel {
 		g.drawString("3", 400, 225);
 		g.drawString("6", 243, 382);
 		g.drawString("9", 92, 228);
-		g.drawString(time.format(DateTimeFormatter.ofPattern("HH:mm:ss")), 200, 440);
-
 		
+		if (hoursDigital < 10)
+			g.drawString("0" + hoursDigital + ":" + minutes + ":" + seconds, 200, 440);
+		else
+			g.drawString(hoursDigital + ":" + minutes + ":" + seconds, 200, 440);
+
+
 		MovingTime();
 	}
 	
 	class MyTimerTask extends TimerTask{
 		@Override
 		public void run() {
-			if (true)
-				degree = degree + 6;
 			repaint();
 		}
 	}
@@ -84,12 +94,17 @@ public class Clock extends JPanel {
 		timer.cancel();
 	}
 	
-	public void summer() {
-		this.hour = -1;
-	}
-	
-	public void winter() {
-		this.hour = 0;
+	public static void setOrigin(int selected) {
+		if (selected == 0)
+			hour = 0;
+		if (selected == 1)
+			hour = -7;
+		if (selected == 2)
+			hour = -2;
+		if (selected == 3)
+			hour = 7;
+		if (selected == 4)
+			hour = 9;				
 	}
 
 }

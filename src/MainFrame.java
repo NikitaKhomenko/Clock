@@ -5,9 +5,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 
 import clockMachine.Clock;
 
@@ -16,7 +16,8 @@ public class MainFrame extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JButton btStop, btGeorgian, btSummer, btWinter;
+	private JButton btStop, btStart;
+	private JComboBox<String> cbOrigin;
 	private Clock clock = new Clock();
 	
 	public MainFrame() {
@@ -50,38 +51,30 @@ public class MainFrame extends JFrame {
 			}
 		});
 		
-		btGeorgian.addActionListener(new ActionListener() {
+		btStart.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent start) {
 				clock.MovingTime();
 			}
 		});
 		
-		btSummer.addActionListener(new ActionListener() {
+		cbOrigin.addActionListener(new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent Summer) {
-				clock.summer();
+			public void actionPerformed(ActionEvent changeColor) {
+				int selected = cbOrigin.getSelectedIndex();
+				Clock.setOrigin(selected);
 			}
 		});
-		
-		btWinter.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent winter) {
-				clock.winter();
-			}
-		});
+
 	}
 
 
 	private void setButtonsPrefrences() {
 		btStop = new JButton("Stop");
 		btStop.setPreferredSize(new Dimension(90, 30));
-		btGeorgian = new JButton("Georgian");
-		btGeorgian.setPreferredSize(new Dimension(90, 30));
-		btSummer = new JButton("Summer");
-		btSummer.setPreferredSize(new Dimension(90, 30));
-		btWinter = new JButton("Winter");
-		btWinter.setPreferredSize(new Dimension(90, 30));
+		btStart = new JButton("Start");
+		btStart.setPreferredSize(new Dimension(90, 30));
+		cbOrigin = new JComboBox<String>(new String[] {"Jerusalem", "New York", "London", "Tokyo", "Canberra"});
 	}
 	
 	private void arrangeComponents() {
@@ -92,9 +85,8 @@ public class MainFrame extends JFrame {
 	    this.add(ButtonPnl, BorderLayout.SOUTH);
 
 	    ButtonPnl.add(btStop);
-	    ButtonPnl.add(btGeorgian);
-	    ButtonPnl.add(btSummer);
-	    ButtonPnl.add(btWinter);
+	    ButtonPnl.add(btStart);
+	    ButtonPnl.add(cbOrigin);
 	}
 
 }
