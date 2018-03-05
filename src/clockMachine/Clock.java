@@ -74,10 +74,18 @@ public class Clock extends JPanel {
 		g.drawString("6", 243, 382);
 		g.drawString("9", 92, 228);
 		
+		String hoursDisplay = hoursDigital + "";
+		String minutesDisplay = minutes + "";
+		String secondsDisplay = seconds + ""; 
+		
 		if (hoursDigital < 10)
-			g.drawString("0" + hoursDigital + ":" + minutes + ":" + seconds, 200, 440);
-		else
-			g.drawString(hoursDigital + ":" + minutes + ":" + seconds, 200, 440);
+			hoursDisplay = "0" + hoursDigital;
+		if (minutes < 10)
+			minutesDisplay = "0" + minutes;
+		if (seconds < 10)
+			secondsDisplay = "0" + seconds;
+
+		g.drawString(hoursDisplay + ":" + minutesDisplay + ":" + secondsDisplay, 200, 440);
 
 
 		MovingTime();
